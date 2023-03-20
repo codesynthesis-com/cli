@@ -30,10 +30,11 @@ namespace features
     std::vector<int> --vector | -v;
     std::set<int> --set | -s;
 
-    // We can also use maps. In this case the option value is expected to have
-    // two parts: the key and the value, separated by '='. For example: -m a=1
-    // -m =true -m c= -m d (same as -m d=).
+    // We can also use maps and multimaps. In this case the option value is
+    // expected to have two parts: the key and the value, separated by '='.
+    // For example: -m a=1 -m =true -m c= -m d (same as -m d=).
     //
     std::map<std::string, bool> --map | -m;
+    std::multimap<std::string, int> --multimap;
   };
 }

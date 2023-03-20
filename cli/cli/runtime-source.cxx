@@ -1216,6 +1216,70 @@ generate_runtime_source (context& ctx, bool complete)
 
   os << "};";
 
+  // parser<std::multimap<K,V,C>>
+  //
+  os << "template <typename K, typename V, typename C>" << endl
+     << "struct parser<std::multimap<K, V, C> >"
+     << "{";
+
+  os <<   "static void" << endl
+     <<   "parse (std::multimap<K, V, C>& m, " << (sp ? "bool& xs, " : "") << "scanner& s)"
+     <<   "{"
+     <<     "const char* o (s.next ());"
+     <<                                                                    endl
+     <<     "if (s.more ())"
+     <<     "{"
+     <<       "std::size_t pos (s.position ());"
+     <<       "std::string ov (s.next ());"
+     <<       "std::string::size_type p = ov.find ('=');"
+     <<                                                                    endl
+     <<       "K k = K ();"
+     <<       "V v = V ();"
+     <<       "std::string kstr (ov, 0, p);"
+     <<       "std::string vstr (ov, (p != std::string::npos ? p + 1 : ov.size ()));"
+     <<                                                                    endl
+     <<       "int ac (2);"
+     <<       "char* av[] ="
+     <<       "{"
+     <<       "const_cast<char*> (o)," << endl
+     <<       "0"
+     <<       "};";
+  if (sp)
+    os <<     "bool dummy;";
+  os <<       "if (!kstr.empty ())"
+     <<       "{"
+     <<         "av[1] = const_cast<char*> (kstr.c_str ());"
+     <<         "argv_scanner s (0, ac, av, false, pos);"
+     <<         "parser<K>::parse (k, " << (sp ? "dummy, " : "") << "s);"
+     <<       "}"
+     <<       "if (!vstr.empty ())"
+     <<       "{"
+     <<         "av[1] = const_cast<char*> (vstr.c_str ());"
+     <<         "argv_scanner s (0, ac, av, false, pos);"
+     <<         "parser<V>::parse (v, " << (sp ? "dummy, " : "") << "s);"
+     <<       "}"
+     <<       "m.insert (typename std::multimap<K, V, C>::value_type (k, v));"
+     <<     "}"
+     <<     "else" << endl
+     <<       "throw missing_value (o);";
+  if (sp)
+    os << endl
+       <<   "xs = true;";
+  os <<   "}";
+
+  if (gen_merge)
+    os << "static void" << endl
+       << "merge (std::multimap<K, V, C>& b, const std::multimap<K, V, C>& a)"
+       << "{"
+       <<   "for (typename std::multimap<K, V, C>::const_iterator i (a.begin ()); " << endl
+       <<         "i != a.end (); "                                            << endl
+       <<         "++i)"                                                       << endl
+       <<     "b.insert (typename std::multimap<K, V, C>::value_type (i->first," << endl
+      <<                                                             "i->second));" << endl
+       << "}";
+
+  os << "};";
+
   // Parser thunk.
   //
   os << "template <typename X, typename T, T X::*M>" << endl
