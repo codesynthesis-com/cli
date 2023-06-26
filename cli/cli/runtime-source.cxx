@@ -31,12 +31,16 @@ generate_runtime_source (context& ctx, bool complete)
   {
     string const& os_type (ctx.options.ostream_type ());
 
+    const char* nothrow (ctx.options.std () < cxx_version::cxx11
+                         ? "throw ()"
+                         : "noexcept");
+
     // unknown_option
     //
     os << "// unknown_option" << endl
        << "//" << endl
        << "unknown_option::" << endl
-       << "~unknown_option () throw ()"
+       << "~unknown_option () " << nothrow
        << "{"
        << "}"
 
@@ -47,7 +51,7 @@ generate_runtime_source (context& ctx, bool complete)
        << "}"
 
        << "const char* unknown_option::" << endl
-       << "what () const throw ()"
+       << "what () const " << nothrow
        << "{"
        << "return \"unknown option\";"
        << "}";
@@ -57,7 +61,7 @@ generate_runtime_source (context& ctx, bool complete)
     os << "// unknown_argument" << endl
        << "//" << endl
        << "unknown_argument::" << endl
-       << "~unknown_argument () throw ()"
+       << "~unknown_argument () " << nothrow
        << "{"
        << "}"
 
@@ -68,7 +72,7 @@ generate_runtime_source (context& ctx, bool complete)
        << "}"
 
        << "const char* unknown_argument::" << endl
-       << "what () const throw ()"
+       << "what () const " << nothrow
        << "{"
        << "return \"unknown argument\";"
        << "}";
@@ -78,7 +82,7 @@ generate_runtime_source (context& ctx, bool complete)
     os << "// missing_value" << endl
        << "//" << endl
        << "missing_value::" << endl
-       << "~missing_value () throw ()"
+       << "~missing_value () " << nothrow
        << "{"
        << "}"
 
@@ -89,7 +93,7 @@ generate_runtime_source (context& ctx, bool complete)
        << "}"
 
        << "const char* missing_value::" << endl
-       << "what () const throw ()"
+       << "what () const " << nothrow
        << "{"
        << "return \"missing option value\";"
        << "}";
@@ -99,7 +103,7 @@ generate_runtime_source (context& ctx, bool complete)
     os << "// invalid_value" << endl
        << "//" << endl
        << "invalid_value::" << endl
-       << "~invalid_value () throw ()"
+       << "~invalid_value () " << nothrow
        << "{"
        << "}"
 
@@ -115,7 +119,7 @@ generate_runtime_source (context& ctx, bool complete)
        << "}"
 
        << "const char* invalid_value::" << endl
-       << "what () const throw ()"
+       << "what () const " << nothrow
        << "{"
        << "return \"invalid option value\";"
        << "}";
@@ -131,7 +135,7 @@ generate_runtime_source (context& ctx, bool complete)
        << "}"
 
        << "const char* eos_reached::" << endl
-       << "what () const throw ()"
+       << "what () const " << nothrow
        << "{"
        << "return \"end of argument stream reached\";"
        << "}";
@@ -143,7 +147,7 @@ generate_runtime_source (context& ctx, bool complete)
       os << "// file_io_failure" << endl
          << "//" << endl
          << "file_io_failure::" << endl
-         << "~file_io_failure () throw ()"
+         << "~file_io_failure () " << nothrow
          << "{"
          << "}"
 
@@ -155,7 +159,7 @@ generate_runtime_source (context& ctx, bool complete)
          << "}"
 
          << "const char* file_io_failure::" << endl
-         << "what () const throw ()"
+         << "what () const " << nothrow
          << "{"
          << "return \"unable to open file or read failure\";"
          << "}";
@@ -165,7 +169,7 @@ generate_runtime_source (context& ctx, bool complete)
       os << "// unmatched_quote" << endl
          << "//" << endl
          << "unmatched_quote::" << endl
-         << "~unmatched_quote () throw ()"
+         << "~unmatched_quote () " << nothrow
          << "{"
          << "}"
 
@@ -177,7 +181,7 @@ generate_runtime_source (context& ctx, bool complete)
          << "}"
 
          << "const char* unmatched_quote::" << endl
-         << "what () const throw ()"
+         << "what () const " << nothrow
          << "{"
          << "return \"unmatched quote\";"
          << "}";
@@ -191,7 +195,7 @@ generate_runtime_source (context& ctx, bool complete)
          << "//" << endl
 
          << "unexpected_group::" << endl
-         << "~unexpected_group () throw ()"
+         << "~unexpected_group () " << nothrow
          << "{"
          << "}"
 
@@ -203,7 +207,7 @@ generate_runtime_source (context& ctx, bool complete)
          << "}"
 
          << "const char* unexpected_group::" << endl
-         << "what () const throw ()"
+         << "what () const " << nothrow
          << "{"
          << "return \"unexpected grouped argument\";"
          << "}";
@@ -214,7 +218,7 @@ generate_runtime_source (context& ctx, bool complete)
            << "//" << endl
 
            << "group_separator::" << endl
-           << "~group_separator () throw ()"
+           << "~group_separator () " << nothrow
            << "{"
            << "}"
 
@@ -238,7 +242,7 @@ generate_runtime_source (context& ctx, bool complete)
            << "}"
 
            << "const char* group_separator::" << endl
-           << "what () const throw ()"
+           << "what () const " << nothrow
            << "{"
            << "bool ex (!expected_.empty ());"
            << "bool en (!encountered_.empty ());"

@@ -88,6 +88,10 @@ generate_runtime_header (context& ctx)
 
   string const& os_type (ctx.options.ostream_type ());
 
+  const char* nothrow (ctx.options.std () < cxx_version::cxx11
+                       ? "throw ()"
+                       : "noexcept");
+
   os << "// Exceptions." << endl
      << "//" << endl
      << endl;
@@ -107,7 +111,7 @@ generate_runtime_header (context& ctx)
      << "{"
      << "public:" << endl
      << "virtual" << endl
-     << "~unknown_option () throw ();"
+     << "~unknown_option () " << nothrow << ';'
      << endl
      << "unknown_option (const std::string& option);"
      << endl
@@ -118,7 +122,7 @@ generate_runtime_header (context& ctx)
      << "print (" << os_type << "&) const;"
      << endl
      << "virtual const char*" << endl
-     << "what () const throw ();"
+     << "what () const " << nothrow << ';'
      << endl
      << "private:" << endl
      << "std::string option_;"
@@ -128,7 +132,7 @@ generate_runtime_header (context& ctx)
      << "{"
      << "public:" << endl
      << "virtual" << endl
-     << "~unknown_argument () throw ();"
+     << "~unknown_argument () " << nothrow << ';'
      << endl
      << "unknown_argument (const std::string& argument);"
      << endl
@@ -139,7 +143,7 @@ generate_runtime_header (context& ctx)
      << "print (" << os_type << "&) const;"
      << endl
      << "virtual const char*" << endl
-     << "what () const throw ();"
+     << "what () const " << nothrow << ';'
      << endl
      << "private:" << endl
      << "std::string argument_;"
@@ -149,7 +153,7 @@ generate_runtime_header (context& ctx)
      << "{"
      << "public:" << endl
      << "virtual" << endl
-     << "~missing_value () throw ();"
+     << "~missing_value () " << nothrow << ';'
      << endl
      << "missing_value (const std::string& option);"
      << endl
@@ -160,7 +164,7 @@ generate_runtime_header (context& ctx)
      << "print (" << os_type << "&) const;"
      << endl
      << "virtual const char*" << endl
-     << "what () const throw ();"
+     << "what () const " << nothrow << ';'
      << endl
      << "private:" << endl
      << "std::string option_;"
@@ -170,7 +174,7 @@ generate_runtime_header (context& ctx)
      << "{"
      << "public:" << endl
      << "virtual" << endl
-     << "~invalid_value () throw ();"
+     << "~invalid_value () " << nothrow << ';'
      << endl
      << "invalid_value (const std::string& option," << endl
      << "const std::string& value," << endl
@@ -189,7 +193,7 @@ generate_runtime_header (context& ctx)
      << "print (" << os_type << "&) const;"
      << endl
      << "virtual const char*" << endl
-     << "what () const throw ();"
+     << "what () const " << nothrow << ';'
      << endl
      << "private:" << endl
      << "std::string option_;"
@@ -204,7 +208,7 @@ generate_runtime_header (context& ctx)
      << "print (" << os_type << "&) const;"
      << endl
      << "virtual const char*" << endl
-     << "what () const throw ();"
+     << "what () const " << nothrow << ';'
      << "};";
 
   if (ctx.options.generate_file_scanner ())
@@ -213,7 +217,7 @@ generate_runtime_header (context& ctx)
        << "{"
        << "public:" << endl
        << "virtual" << endl
-       << "~file_io_failure () throw ();"
+       << "~file_io_failure () " << nothrow << ';'
        << endl
        << "file_io_failure (const std::string& file);"
        << endl
@@ -224,7 +228,7 @@ generate_runtime_header (context& ctx)
        << "print (" << os_type << "&) const;"
        << endl
        << "virtual const char*" << endl
-       << "what () const throw ();"
+       << "what () const " << nothrow << ';'
        << endl
        << "private:" << endl
        << "std::string file_;"
@@ -234,7 +238,7 @@ generate_runtime_header (context& ctx)
        << "{"
        << "public:" << endl
        << "virtual" << endl
-       << "~unmatched_quote () throw ();"
+       << "~unmatched_quote () " << nothrow << ';'
        << endl
        << "unmatched_quote (const std::string& argument);"
        << endl
@@ -245,7 +249,7 @@ generate_runtime_header (context& ctx)
        << "print (" << os_type << "&) const;"
        << endl
        << "virtual const char*" << endl
-       << "what () const throw ();"
+       << "what () const " << nothrow << ';'
        << endl
        << "private:" << endl
        << "std::string argument_;"
@@ -258,7 +262,7 @@ generate_runtime_header (context& ctx)
        << "{"
        << "public:" << endl
        << "virtual" << endl
-       << "~unexpected_group () throw ();"
+       << "~unexpected_group () " << nothrow << ';'
        << endl
        << "unexpected_group (const std::string& argument," << endl
        <<                   "const std::string& group);"
@@ -273,7 +277,7 @@ generate_runtime_header (context& ctx)
        << "print (std::ostream&) const;"
        << endl
        << "virtual const char*" << endl
-       << "what () const throw ();"
+       << "what () const " << nothrow << ';'
        << endl
        << "private:" << endl
        << "std::string argument_;"
@@ -284,7 +288,7 @@ generate_runtime_header (context& ctx)
        << "{"
        << "public:" << endl
        << "virtual" << endl
-       << "~group_separator () throw ();"
+       << "~group_separator () " << nothrow << ';'
        << endl
        << "// Note: either (but not both) can be empty." << endl
        << "//" << endl
@@ -301,7 +305,7 @@ generate_runtime_header (context& ctx)
        << "print (std::ostream&) const;"
        << endl
        << "virtual const char*" << endl
-       << "what () const throw ();"
+       << "what () const " << nothrow << ';'
        << endl
        << "private:" << endl
        << "std::string encountered_;"
