@@ -4,8 +4,8 @@ Version 1.2.0
     function which can be used to merge several already parsed options class
     instances, for example, to implement option appending/overriding.
 
-  * New option, --generate-specifier, triggers the generation of functions
-    for determining whether the option was specified on the command line.
+  * New option, --generate-specifier, triggers the generation of functions for
+    determining whether the option was specified on the command line.
 
   * New option, --suppress-undocumented, suppresses the generation of
     documentation entries for undocumented options.
@@ -13,12 +13,17 @@ Version 1.2.0
   * New option, --cli-namespace, allows changing of the namespace for the
     generated CLI support types.
 
-  * The argv_file_scanner now supports double and single-quoting option
-    values in option files. This is useful to preserve leading and trailing
+  * The argv_file_scanner now supports double and single-quoting option values
+    in option files. This is useful to preserve leading and trailing
     whitespaces as well as to specify empty values.
 
-  * The argv_file_scanner now supports multiple file options as well as
-    file search callbacks.
+  * The argv_file_scanner now supports multiple file options as well as file
+    search callbacks.
+
+  * New option, --generate-dep, triggers the generation of the make dependency
+    information. Other related new options: --dep-suffix, --dep-file.
+
+  * Support for std::multimap as an option type in addition to std::map.
 
 Version 1.1.0
 
