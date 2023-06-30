@@ -1,6 +1,6 @@
 : 1
 name: cli
-version: 1.2.0-b.9.z
+version: 1.2.0-b.10
 summary: Command line interface (CLI) compiler for C++
 license: MIT
 topics: C++, command line interface, source code generation, \
