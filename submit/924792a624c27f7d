@@ -1,0 +1,5 @@
+: 1
+name: cli
+version: 1.2.0-b.10+2
+summary: Command line interface (CLI) compiler for C++
+license: MIT
