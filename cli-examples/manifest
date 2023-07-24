@@ -1,6 +1,6 @@
 : 1
 name: cli-examples
-version: 1.2.0-b.10+1
+version: 1.2.0-b.10+2
 project: cli
 summary: Examples of using the CLI language and compiler for C++
 license: MIT
@@ -10,5 +10,5 @@ doc-url: https://www.codesynthesis.com/projects/cli/doc/guide/
 src-url: https://git.codesynthesis.com/cgit/cli/cli/tree/cli-examples/
 email: cli-users@codesynthesis.com ; Mailing list
 requires: c++14
-depends: * build2 >= 0.15.0-
-depends: * bpkg >= 0.15.0-
+depends: * build2 >= 0.16.0
+depends: * bpkg >= 0.16.0
