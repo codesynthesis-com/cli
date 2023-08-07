@@ -1,6 +1,6 @@
 : 1
 name: cli-examples
-version: 1.2.0-b.10+2
+version: 1.2.0-b.10.z
 project: cli
 summary: Examples of using the CLI language and compiler for C++
 license: MIT

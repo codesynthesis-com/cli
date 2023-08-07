@@ -1,6 +1,6 @@
 : 1
 name: cli-tests
-version: 1.2.0-b.10+2
+version: 1.2.0-b.10.z
 project: cli
 summary: Tests for the CLI compiler for C++
 license: MIT
