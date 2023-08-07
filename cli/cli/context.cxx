@@ -1344,9 +1344,26 @@ format (semantics::scope& scope, string const& s, bool para)
   size_t ol_count (0);
 
   // Mapping of \h to HTML tag. By default it is <h1> until we encounter
-  // \h0 or \h1 at which point we change it to <h2>.
+  // \h0 or \h1 at which point we change it to <h2>. It can also be mapped
+  // with --html-heading-map.
   //
-  char html_h ('1');
+  char html_h ('\0');
+
+  typedef map<char, string> html_hmap;
+  if (ot == ot_html)
+  {
+    const html_hmap& hm (options.html_heading_map ());
+    html_hmap::const_iterator mi (hm.find ('h'));
+
+    if (mi != hm.end ())
+    {
+      // Note: this mapping back is necessary for TOC to function correctly
+      // with multiple string fragments.
+      //
+      if      (mi->second == "h1") html_h = '1';
+      else if (mi->second == "h2") html_h = '2';
+    }
+  }
 
   bool last (false);
   for (size_t b (0), e; !last; b = e + 1)
@@ -1987,7 +2004,7 @@ format (semantics::scope& scope, string const& s, bool para)
                 case '1': break; // Always unwind.
                 case 'h':
                   {
-                    pop = html_h == '1' || e.type == 'h' || e.type == '2';
+                    pop = html_h != '2' || e.type == 'h' || e.type == '2';
                     break;
                   }
                 case '2': pop = e.type == '2'; break;
@@ -2084,9 +2101,10 @@ format (semantics::scope& scope, string const& s, bool para)
 
               // Same as in non-TOC mode below.
               //
-              // @@ This only works for a single string fragment.
+              // This only works automatically for a single string fragment.
+              // For multiple string fragments use --html-heading-map.
               //
-              if (t == '0' || t == '1')
+              if (html_h == '\0' && (t == '0' || t == '1'))
                 html_h = '2';
 
               break;
@@ -2204,9 +2222,8 @@ format (semantics::scope& scope, string const& s, bool para)
               string h;
               string c;
 
-              typedef map<char, string> map;
-              const map& hm (options.html_heading_map ());
-              map::const_iterator mi (hm.find (t));
+              const html_hmap& hm (options.html_heading_map ());
+              html_hmap::const_iterator mi (hm.find (t));
 
               if (mi == hm.end ())
               {
@@ -2215,7 +2232,7 @@ format (semantics::scope& scope, string const& s, bool para)
                 case '0': h = "h1"; c = "preface"; break;
                 case 'H': h = "h1"; c = "part"; break;
                 case '1': h = "h1"; break;
-                case 'h': h = html_h == '1' ? "h1" : "h2"; break;
+                case 'h': h = html_h != '2' ? "h1" : "h2"; break;
                 case '2': h = "h3"; break;
                 }
               }
@@ -2241,9 +2258,10 @@ format (semantics::scope& scope, string const& s, bool para)
 
               v += "</" + h + '>';
 
-              // @@ This only works for a single string fragment.
+              // This only works automatically for a single string fragment.
+              // For multiple string fragments use --html-heading-map.
               //
-              if (t == '0' || t == '1')
+              if (html_h == '\0' && (t == '0' || t == '1'))
                 html_h = '2';
 
               break;
