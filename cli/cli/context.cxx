@@ -1338,8 +1338,8 @@ format (semantics::scope& scope, string const& s, bool para)
   stack<block> blocks;
   blocks.push (block (block::text, para, "")); // Top-level.
 
-  // Number of li in ol. Since we don't support nested lists, we don't
-  // need to push it into the stack.
+  // Number of li in ol. Since we don't support nested lists (except in HTML
+  // where this is unused), we don't need to push it into the stack.
   //
   size_t ol_count (0);
 
@@ -1617,7 +1617,10 @@ format (semantics::scope& scope, string const& s, bool para)
       case block::dl: good = (k == block::li); break;
       case block::li: good = (k == block::note ||
                               k == block::text ||
-                              k == block::pre   ); break;
+                              k == block::pre  ||
+                              (ot == ot_html && (k == block::ul ||
+                                                 k == block::ol ||
+                                                 k == block::dl))); break;
       case block::note: good = (k == block::text ||
                                 k == block::pre  ||
                                 (ot == ot_html && (k == block::ul ||
@@ -1729,7 +1732,7 @@ format (semantics::scope& scope, string const& s, bool para)
     {
     case block::h: blocks.push (block (k, false, id, header)); break;
     case block::ul:
-    case block::ol: ol_count = 0; // Fall through.
+    case block::ol: if (ot != ot_html) ol_count = 0; // Fall through.
     case block::dl: blocks.push (block (k, true, id)); break;
     case block::li:
       {
@@ -1737,9 +1740,12 @@ format (semantics::scope& scope, string const& s, bool para)
         {
         case block::ol:
           {
-            ostringstream os;
-            os << ++ol_count;
-            header = os.str ();
+            if (ot != ot_html)
+            {
+              ostringstream os;
+              os << ++ol_count;
+              header = os.str ();
+            }
             break;
           }
         case block::dl:
