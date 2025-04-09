@@ -126,7 +126,6 @@ if $develop
      diff $src_base/pregenerated/cli/options.ixx $path($>[1]) >- && \
      diff $src_base/pregenerated/cli/options.cxx $path($>[2]) >-
     exit
-  end
 
   cp $path($>[0]) $src_base/pregenerated/cli/options.hxx
   cp $path($>[1]) $src_base/pregenerated/cli/options.ixx

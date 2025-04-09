@@ -89,7 +89,6 @@ if $develop
   #
   if! diff $src_base/pregenerated/cli.1 $path($>) >-
     cp $path($>) $src_base/pregenerated/cli.1
-  end
 }}
 
 xhtml{cli}: ../cli/cli{options} file{cli-prologue.xhtml cli-epilogue.xhtml}
@@ -105,7 +104,6 @@ if $develop
 
   if! diff $src_base/pregenerated/cli.xhtml $path($>) >-
     cp $path($>) $src_base/pregenerated/cli.xhtml
-  end
 }}
 
 #

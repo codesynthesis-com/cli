@@ -3,7 +3,7 @@
 
 : values
 :
-{
+{{
   : long
   :
   $* --foo=123 >'--foo=123'
@@ -36,7 +36,7 @@
 
   : options-file
   :
-  {
+  {{
     : basics
     :
     cat <<EOI >=options;
@@ -64,12 +64,12 @@
     --foo="'bar 123'"
     EOI
     $* --file=options >"--foo='bar 123'"
-  }
-}
+  }}
+}}
 
 : flags
 :
-{
+{{
   : basic
   :
   $* -zyx >'-xyz'
@@ -105,4 +105,4 @@
   $* -xyf=123 2>>EOE != 0
   missing value for option '-f'
   EOE
-}
+}}

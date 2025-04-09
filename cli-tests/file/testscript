@@ -284,7 +284,7 @@ EOO
 
 : relativeness
 :
-{
+{{
   +cat <<EOI >=test1.ops
     -a 11
     --file test/test.ops
@@ -335,4 +335,4 @@ EOO
     -b
     22
     EOO
-}
+}}
